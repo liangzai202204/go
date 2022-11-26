@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -11,9 +12,17 @@ func TestServer(t *testing.T) {
 	s.Get("/", func(ctx *Context) {
 		ctx.Resp.Write([]byte("hello, world"))
 	})
-	s.Get("/reg/:id(.*)", func(ctx *Context) {
+	s.Get("/user", func(ctx *Context) {
 		ctx.Resp.Write([]byte("hello, user"))
+	})
+
+	s.Post("/form", func(ctx *Context) {
+		err := ctx.Req.ParseForm()
+		if err != nil {
+			fmt.Println(err)
+		}
 	})
 
 	s.Start(":8081")
 }
+
